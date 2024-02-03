@@ -11,7 +11,7 @@
     <a class="btn btn-secondary" href="{% url 'session_create' %}" role="button">Créer une  nouvelle session</a>
 </div>
 <div class="p-2">
-    <table class="table">
+    <table class="table table-striped table-hover">
         <thead>
         <tr>
             <th scope="col">ID</th>
@@ -20,7 +20,8 @@
             <th scope="col">Date of creation</th>
             <th scope="col">End of validity</th>
             <th scope="col">URL</th>
-            <th scope="col">Status</th>
+            <th scope="col">Modifier statut</th>
+            <th scope="col">Suppression</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,12 @@
                 <td>{{ session.dateEnd }}</td>
                 <td>{{ session.url }}</td>
                 <td>{{ session.status }}</td>
+                <td style="background-color:white; border: 1px solid white;">
+                    <form onsubmit="return confirm('Confirmer la supression');" action="{% url 'session_delete' session.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger btn-sm">Supprimer</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}  
         </tbody>

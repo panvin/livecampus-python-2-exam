@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("sessions/", views.session_list, name='session_list' ),
     path("sessions/create", views.session_create, name='session_create' ),
+    path('sessions/delete/<int:id>/', views.session_delete, name="session_delete"),
     path("accounts/", include('django.contrib.auth.urls')),
     path("", views.home_display, name = "home")
 ]
