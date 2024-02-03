@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column bd-highlight mb-3">
+    <div class="p-2 bd-highlight">
+        <h1 class="display-1">Log In</h1>
+    </div>
+    <div class="p-2 bd-highlight">
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="login">{{ form.username.label_tag }}</label>
+                <input type="login" name="username" class="form-control" id="login" aria-describedby="emailHelp" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label for="password">{{ form.password.label_tag }}</label>
+                <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="next" value="{{ next }}">
+                <button type="submit" class="btn btn-primary">Log in</button>
+            </div>
+          </form>
+    </div>
+</div>
+{% endblock %}
