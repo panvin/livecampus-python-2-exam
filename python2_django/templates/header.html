@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <!-- Navbar brand -->
             <a class="navbar-brand mt-2 mt-lg-0" href="{% url 'home' %}">
-                <h5 class="pt-1">Enquête de progressions</h5>
+                <h5 class="pt-1">Enquêtes de progressions</h5>
             </a>
 
 
@@ -17,12 +17,12 @@
                 <div>
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
-                        <input class="btn btn-primary" type="submit" name="logout" value="Logout" />
+                        <input class="btn btn-primary" type="submit" name="logout" value="Déconnexion" />
                     </form>
                 </div>
                 {% else %}
                 <div>
-                    <a class="btn btn-primary" href="{% url 'login' %}" role="button">Login</a>
+                    <a class="btn btn-primary" href="{% url 'login' %}" role="button">Connexion</a>
                 </div>
                 {% endif %}
             </div>
