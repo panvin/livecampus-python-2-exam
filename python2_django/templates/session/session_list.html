@@ -14,25 +14,25 @@
     <table class="table table-striped table-hover">
         <thead>
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Creator</th>
-            <th scope="col">Date of creation</th>
-            <th scope="col">End of validity</th>
+            <th scope="col">#</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Auteur</th>
+            <th scope="col">Date de début</th>
+            <th scope="col">Date de fin</th>
             <th scope="col">URL</th>
-            <th scope="col">Modifier statut</th>
+            <th scope="col">Modification du statut</th>
             <th scope="col">Suppression</th>
         </tr>
         </thead>
         <tbody>
             {% for session in sessionsurvey %}
             <tr>
-                <td>{{ session.id }}</td>
+                <td>{{ forloop.counter }}</td>
                 <td>{{ session.name }}</td>
                 <td>{{ session.createdBy }}</td>
-                <td>{{ session.dateCreation }}</td>
+                <td>{{ session.dateStarted }}</td>
                 <td>{{ session.dateEnd }}</td>
-                <td>{{ session.url }}</td>
+                <td>http://monsupersite/{{ session.url }}</td>
                 <td>{{ session.status }}</td>
                 <td style="background-color:white; border: 1px solid white;">
                     <form onsubmit="return confirm('Confirmer la supression');" action="{% url 'session_delete' session.id %}" method="POST">

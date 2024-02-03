@@ -6,7 +6,7 @@ class SessionSurvey(models.Model):
     name         = models.CharField(max_length=50)
     status       = models.BooleanField(default=False)
     createdBy    = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    dateCreation = models.DateTimeField()
+    dateStarted  = models.DateTimeField()
     dateEnd      = models.DateTimeField()
     url          = models.CharField(max_length=250)
 
