@@ -15,7 +15,10 @@
                 <!-- Avatar -->
                 <div class="p-2">Bonjour,  {{ user.username }}</div>
                 <div>
-                    <a class="btn btn-primary" href="{% url 'logout' %}" role="button">Logout</a>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <input class="btn btn-primary" type="submit" name="logout" value="Logout" />
+                    </form>
                 </div>
                 {% else %}
                 <div>

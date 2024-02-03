@@ -20,7 +20,8 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("session/", views.session_list, name='session_list' ),
+    path("sessions/", views.session_list, name='session_list' ),
+    path("sessions/create", views.session_create, name='session_create' ),
     path("accounts/", include('django.contrib.auth.urls')),
     path("", views.home_display, name = "home")
 ]

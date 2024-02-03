@@ -3,43 +3,39 @@
 {% block title %}Liste des sessions{% endblock %}
 
 {% block content %}
-<h1> </h1>
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <tbody>
-        {% for session in sessionsurvey %}
-        <li> {{ session.name }}</li>
-    {% endfor %}
+<div class="p-2">
+    <h1> Liste des equêtes</h1>
+</div>
+<div class="p-2"> 
+    <a class="btn btn-secondary" href="{% url 'home' %}" role="button">Retourner à l'acceuil</a>
+    <a class="btn btn-secondary" href="{% url 'session_create' %}" role="button">Créer une  nouvelle session</a>
+</div>
+<div class="p-2">
+    <table class="table">
+        <thead>
         <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Creator</th>
+            <th scope="col">Date of creation</th>
+            <th scope="col">End of validity</th>
+            <th scope="col">URL</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for session in sessionsurvey %}
+            <tr>
+                <td>{{ session.id }}</td>
+                <td>{{ session.name }}</td>
+                <td>{{ session.createdBy }}</td>
+                <td>{{ session.dateCreation }}</td>
+                <td>{{ session.dateEnd }}</td>
+                <td>{{ session.url }}</td>
+                <td>{{ session.status }}</td>
+            </tr>
+            {% endfor %}  
         </tbody>
-      </table>
-<ul>
-    {% for session in sessionsurvey %}
-        <li> {{ session.name }}</li>
-    {% endfor %}
-</ul>
-{% end content %}
+    </table>
+</div>
+{% endblock %}

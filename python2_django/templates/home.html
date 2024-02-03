@@ -4,13 +4,21 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-Hi {{ user.username }}!
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Log Out</button>
-</form>
+<div class="p-2 text-center">
+    <h1> Bonjour, {{ user.username }}! </h1>
+</div>
+<div class="p-2 text-center">
+    <h2> Nous sommes samedi 3 février 2024, vous avez 4 enquêtes en cours</h2>
+</div>
+<div class="p-2 text-center"> 
+    <a class="btn btn-secondary"  href="{% url 'session_list' %}"  role="button">Accéder à la liste d'enquêtes</a>
+</div>
 {% else %}
-<p>You are not logged in</p>
-<a href="{% url 'login' %}">Log In</a>
+<div class="p-2 text-center">
+    <h1> Bonjour !!!! </h1>
+</div>
+<div class="p-2 text-center">
+    <h2> Bienvenue sur notre super site d'enquête.<br>Veuillez vous authentifier pour continuer</h2>
+</div>
 {% endif %}
 {% endblock %}
