@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime, timedelta
-from .utils import generate_random_string, getFormattedDateForHomePage
+from .utils import generateRandomString, getFormattedDateForHomePage
 from .forms import SessionForm
 from .models import SessionSurvey
 from .models import SurveyAnswer
@@ -15,7 +15,7 @@ def session_list(request):
 def session_create(request):
     
     currentUserInit = request.user
-    urlInit = generate_random_string(8)
+    urlInit = generateRandomString(8)
     dateStartedInit = datetime.now()
     dateEndInit = datetime.now() + timedelta(hours=3)
     context ={} 
