@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime, timedelta
-from .utils import generate_random_string
+from .utils import generate_random_string, getFormattedDateForHomePage
 from .forms import SessionForm
 from .models import SessionSurvey
 from .models import SurveyAnswer
 
 @login_required
 def session_list(request):
-    sessionSurvey = SessionSurvey.objects.all()
+    sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
     return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
 
 @login_required
@@ -49,4 +49,15 @@ def session_delete(request, id):
     return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
 
 def home_display(request):
-    return render(request, 'home.html')
+    
+    context = {}
+    
+    if request.user.is_authenticated:
+        date = getFormattedDateForHomePage()
+        surveyCount = SessionSurvey.objects.filter(createdBy = request.user.id, status = True).count()
+        context = {
+           'date' : date,
+          'surveyCount' : str(surveyCount) 
+        }
+
+    return render(request, 'home.html', context)

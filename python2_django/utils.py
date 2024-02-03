@@ -1,4 +1,5 @@
 from datetime import datetime, timezone, timedelta
+import locale
 import random
 import string
 
@@ -11,3 +12,9 @@ def isDateBeforeNow(date):
 
 def isFirstDateOlderThanSecond(firstDate, secondDate):
     return firstDate < secondDate
+
+def getFormattedDateForHomePage():
+    locale.setlocale(locale.LC_TIME, "fr_FR.UTF-8")
+    date = datetime.now(timezone.utc)
+    formattedDate = date.strftime('%A %d %B')
+    return formattedDate
