@@ -22,7 +22,7 @@ def session_create(request):
   
     # Dictionnaire pour initialiser les données du formulaire 
     initialValues = { 
-        "createdBy" : currentUserInit, 
+        "createdBy" : currentUserInit.id, 
         "url" : urlInit, 
         "dateStarted": dateStartedInit.strftime("%Y-%m-%dT%H:%M"), 
         "dateEnd": dateEndInit.strftime("%Y-%m-%dT%H:%M")

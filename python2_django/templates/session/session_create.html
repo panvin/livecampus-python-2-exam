@@ -11,9 +11,10 @@
     <a class="btn btn-secondary" href="{% url 'session_list' %}" role="button">Retourner à la liste des enquêtes</a>
 </div>
 <div>
+    {% load crispy_forms_tags %}
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form | crispy }}
         <button type="submit"  class="btn btn-primary">Create</button>
     </form>
 </div>

@@ -15,7 +15,7 @@ class SessionForm(forms.ModelForm):
             "name"       : _("Nom de l'enquête"),
             "dateStarted": _("Date d'ouverture"),
             "dateEnd"    : _("Date de fermeture"),
-            "url"        : _("Chaine de caractère de l'url"),
+            "url"        : _("Pattern pour URL"),
         }
 
     def clean(self):
@@ -29,13 +29,16 @@ class SessionForm(forms.ModelForm):
  
         if len(url) < 8:
             self._errors['url'] = self.error_class([
-                'L\'url doit contenir au moins 8 caractères'])
-        if isDateBeforeNow(dateEnd) :
-            self._errors['dateEnd'] = self.error_class([
-                'La date de fin de l\'enbquête ne peux pas être dans le passé'])
+                'Le pattern d\'url doit contenir au moins 8 caractères'])
+        if isDateBeforeNow(dateStarted) :
+            self._errors['dateStarted'] = self.error_class([
+                'La date d\'ouverture de l\'enquête ne peux pas être dans le passé'])
         if isFirstDateOlderThanSecond(dateEnd, dateStarted) :
             self._errors['dateEnd'] = self.error_class([
-                'La date de fin de l\'enbquête ne peux pas être avant la date de création'])
+                'La date de fin de l\'enquête ne peux pas être avant la date d\'ouverture '])
+        if isDateBeforeNow(dateEnd) :
+            self._errors['dateEnd'] = self.error_class([
+                'La date de fin de l\'enquête ne peux pas être dans le passé'])
  
         # return any errors if found
         return self.cleaned_data

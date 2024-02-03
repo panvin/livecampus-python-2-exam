@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import random
 import string
 
@@ -7,6 +7,7 @@ def generate_random_string(length: int) -> str:
     return ''.join(random.choice(characters) for i in range(length))
 
 def isDateBeforeNow(date):
-    return date < date
+    return date < (datetime.now(timezone.utc) - timedelta(minutes=5) )
+
 def isFirstDateOlderThanSecond(firstDate, secondDate):
     return firstDate < secondDate
