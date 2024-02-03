@@ -20,7 +20,7 @@
             <th scope="col">Date de début</th>
             <th scope="col">Date de fin</th>
             <th scope="col">URL</th>
-            <th scope="col">Modification du statut</th>
+            <th scope="col">Statut de l'enquête</th>
             <th scope="col">Suppression</th>
         </tr>
         </thead>
@@ -33,12 +33,30 @@
                 <td>{{ session.dateStarted }}</td>
                 <td>{{ session.dateEnd }}</td>
                 <td>http://monsupersite/{{ session.url }}</td>
-                <td>{{ session.status }}</td>
+                {% if session.status %}
                 <td style="background-color:white; border: 1px solid white;">
+                    <form action="{% url 'session_disable' session.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-success btn-block" style="width:100%">Activé</button>
+                    </form>
+                </td>
+                {% else %}
+                <td style="background-color:white; border: 1px solid white;">
+                    <form action="{% url 'session_enable' session.id %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger btn-block" style="width:100%">Désactivé</button>
+                    </form>
+                    
+                </td>
+                {% endif %}
+                <!--<td style="background-color:white; border: 1px solid white;">
                     <form onsubmit="return confirm('Confirmer la supression');" action="{% url 'session_delete' session.id %}" method="POST">
                         {% csrf_token %}
-                        <button class="btn btn-outline-danger btn-sm">Supprimer</button>
+                        <button class="btn btn-danger btn-block" style="width:100%">Supprimer</button>
                     </form>
+                </td> -->
+                <td style="background-color:white; border: 1px solid white;">
+                    <a class="btn btn-warning btn-block" href="{% url 'session_edit' session.id %}" style="width:100%" role="button">Modifier</a>
                 </td>
             </tr>
             {% endfor %}  

@@ -40,13 +40,43 @@ def session_create(request):
     return render(request, 'session/session_create.html', {'form' : form})
 
 @login_required
+def session_edit(request, id):
+    
+    if request.method == 'POST':
+        form = SessionForm(request.POST)
+        if form.is_valid() :
+            form.save()
+            return redirect('session_list')
+    else:
+        sessionToEdit = get_object_or_404(SessionSurvey, id=id)
+        form = SessionForm(instance=sessionToEdit)
+    return render(request, 'session/session_edit.html', {'form' : form})
+
+@login_required
+def session_disable(request, id):
+    sessionToDisable = get_object_or_404(SessionSurvey, id=id)
+    if sessionToDisable:
+        sessionToDisable.status = False
+        sessionToDisable.save()
+
+    return redirect(session_list)
+
+@login_required
+def session_enable(request, id):
+    sessionToDisable = get_object_or_404(SessionSurvey, id=id)
+    if sessionToDisable:
+        sessionToDisable.status = True
+        sessionToDisable.save()
+
+    return redirect(session_list)
+
+@login_required
 def session_delete(request, id):
     sessionToDelete = get_object_or_404(SessionSurvey, id=id)
     if sessionToDelete:
         sessionToDelete.delete()
 
-    sessionSurvey = SessionSurvey.objects.all()
-    return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
+    return redirect(session_list)
 
 def home_display(request):
     
