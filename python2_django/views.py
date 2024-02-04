@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime, timedelta
-from .utils import generateRandomString, getFormattedDateForHomePage
+from .utils import generateRandomString, getFormattedDateForHomePage, getPercentageAsStr
 from .forms import SessionForm
 from .models import SessionSurvey
 from .models import SurveyAnswer
@@ -9,7 +9,7 @@ from .models import SurveyAnswer
 @login_required
 def session_list(request):
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
-    
+
     return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
 
 @login_required
@@ -81,6 +81,14 @@ def session_delete(request, id):
         sessionToDelete.delete()
 
     return redirect(session_list)
+
+@login_required
+def answer_summary(request, id):
+    listAnswers = SurveyAnswer.objects.filter(session=id)
+    
+    nbrStudents = listAnswers.count()
+
+    return render(request, 'answer/summary.html')
 
 def home_display(request):  
     context = {} 

@@ -18,3 +18,7 @@ def getFormattedDateForHomePage():
     date = datetime.now(timezone.utc)
     formattedDate = date.strftime('%A %d %B')
     return formattedDate
+
+def getPercentageAsStr(value, total):
+  percentage = 100 * float(value)/float(total)
+  return f"{percentage} %"

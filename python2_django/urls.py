@@ -26,6 +26,7 @@ urlpatterns = [
     path('sessions/enable/<int:id>/', views.session_enable, name="session_enable"),
     path('sessions/disable/<int:id>/', views.session_disable, name="session_disable"),
     path('sessions/edit/<int:id>/', views.session_edit, name="session_edit"),
+    path('sessions/<int:id>/summary', views.answer_summary, name="answer_summary"),
     path("accounts/", include('django.contrib.auth.urls')),
     path("", views.home_display, name = "home")
 ]
