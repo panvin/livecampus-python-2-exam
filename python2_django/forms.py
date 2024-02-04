@@ -30,9 +30,6 @@ class SessionForm(forms.ModelForm):
         if len(url) < 8:
             self._errors['url'] = self.error_class([
                 'Le pattern d\'url doit contenir au moins 8 caractères'])
-        if isDateBeforeNow(dateStarted) :
-            self._errors['dateStarted'] = self.error_class([
-                'La date d\'ouverture de l\'enquête ne peux pas être dans le passé'])
         if isFirstDateOlderThanSecond(dateEnd, dateStarted) :
             self._errors['dateEnd'] = self.error_class([
                 'La date de fin de l\'enquête ne peux pas être avant la date d\'ouverture '])

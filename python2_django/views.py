@@ -9,6 +9,7 @@ from .models import SurveyAnswer
 @login_required
 def session_list(request):
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
+    
     return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
 
 @login_required
@@ -24,8 +25,8 @@ def session_create(request):
     initialValues = { 
         "createdBy" : currentUserInit.id, 
         "url" : urlInit, 
-        "dateStarted": dateStartedInit.strftime("%Y-%m-%dT%H:%M"), 
-        "dateEnd": dateEndInit.strftime("%Y-%m-%dT%H:%M")
+        "dateStarted": dateStartedInit, 
+        "dateEnd": dateEndInit
     }
 
     print(initialValues) 
@@ -37,19 +38,22 @@ def session_create(request):
             return redirect('session_list')
     else:
         form = SessionForm(initial = initialValues)
+
     return render(request, 'session/session_create.html', {'form' : form})
 
 @login_required
 def session_edit(request, id):
-    
+    sessionToEdit = get_object_or_404(SessionSurvey, id=id)
+
     if request.method == 'POST':
-        form = SessionForm(request.POST)
-        if form.is_valid() :
-            form.save()
+        form = SessionForm(request.POST, instance=sessionToEdit)
+        if form.has_changed:
+            if form.is_valid():
+                form.save()
             return redirect('session_list')
-    else:
-        sessionToEdit = get_object_or_404(SessionSurvey, id=id)
+    else:  
         form = SessionForm(instance=sessionToEdit)
+
     return render(request, 'session/session_edit.html', {'form' : form})
 
 @login_required
@@ -78,10 +82,8 @@ def session_delete(request, id):
 
     return redirect(session_list)
 
-def home_display(request):
-    
-    context = {}
-    
+def home_display(request):  
+    context = {} 
     if request.user.is_authenticated:
         date = getFormattedDateForHomePage()
         surveyCount = SessionSurvey.objects.filter(createdBy = request.user.id, status = True).count()
