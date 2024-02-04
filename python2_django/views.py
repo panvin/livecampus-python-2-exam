@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime, timedelta
-from .utils import generateRandomString, getFormattedDateForHomePage, getPercentageAsStr
+from .utils import generateRandomString, getFormattedDateForHomePage, generateJwt, getPercentageAsStr
 from .forms import SessionForm
 from .models import SessionSurvey
 from .models import SurveyAnswer
@@ -87,7 +87,7 @@ def session_delete(request, id):
 
     return redirect(session_list)
 
-# View utilisée pour affichier les résultats de l'enquête
+# View utilisée pour afficher les résultats de l'enquête
 @login_required
 def answer_summary(request, id):
     listAnswers = SurveyAnswer.objects.filter(session=id)
@@ -95,3 +95,22 @@ def answer_summary(request, id):
     nbrStudents = listAnswers.count()
 
     return render(request, 'answer/summary.html')
+
+# View utilisée pour afficher le formulaire de l'enquête
+@login_required
+def answer_create_or_edit(request, urlPattern):
+    
+    currentSession = get_object_or_404(SessionSurvey, url=urlPattern)
+    currentUser = request.user
+    currentUserAnswers = SurveyAnswer.objects.filter(session=currentSession.id, student=currentUser.id)
+    token = generateJwt(currentUser.username,currentSession.id)
+    
+    #response = HttpResponse('for_api')
+    #response.set_cookie('jwt', token)
+    
+    if not currentUserAnswers:
+        print("ok")
+        
+    response = render(request, 'answer/survey.html')
+    response.set_cookie("jwt", token, httponly=True)
+    return response

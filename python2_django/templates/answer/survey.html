@@ -1,53 +1,53 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Exemple de formulaire modifiable</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-<h2>Formulaire avec envoi automatique et barres de progression ajustables</h2>
+{% block title %}Création d'une nouvelle session{% endblock %}
 
-<form id="monFormulaire">
-    <div>
-        <label for="nom">Votre nom :</label>
-        <input type="text" id="nom" name="nom">
-    </div>
+{% block content %}
+<div class="p-2">
+    <h1>Formulaire avec envoi automatique et barres de progression ajustables</h2>
+</di>
+<div class="p-2">
+    <form id="monFormulaire">
+        <div>
+            <label for="nom">Votre nom :</label>
+            <input type="text" id="nom" name="nom">
+        </div>
 
-    <fieldset>
-        <legend>Choix unique (Choix de couleur)</legend>
-        <input type="radio" id="couleur1" name="couleur" value="Rouge">
-        <label for="couleur1">Rouge</label><br>
-        <input type="radio" id="couleur2" name="couleur" value="Vert">
-        <label for="couleur2">Vert</label><br>
-        <input type="radio" id="couleur3" name="couleur" value="Bleu">
-        <label for="couleur3">Bleu</label>
-    </fieldset>
+        <fieldset>
+            <legend>Choix unique (Choix de couleur)</legend>
+            <input type="radio" id="couleur1" name="couleur" value="Rouge">
+            <label for="couleur1">Rouge</label><br>
+            <input type="radio" id="couleur2" name="couleur" value="Vert">
+            <label for="couleur2">Vert</label><br>
+            <input type="radio" id="couleur3" name="couleur" value="Bleu">
+            <label for="couleur3">Bleu</label>
+        </fieldset>
 
-    <fieldset>
-        <legend>Choix multiple (Centres d'intérêt)</legend>
-        <input type="checkbox" id="interet1" name="interet" value="Sport">
-        <label for="interet1">Sport</label><br>
-        <input type="checkbox" id="interet2" name="interet" value="Lecture">
-        <label for="interet2">Lecture</label><br>
-        <input type="checkbox" id="interet3" name="interet" value="Voyage">
-        <label for="interet3">Voyage</label>
-    </fieldset>
+        <fieldset>
+            <legend>Choix multiple (Centres d'intérêt)</legend>
+            <input type="checkbox" id="interet1" name="interet" value="Sport">
+            <label for="interet1">Sport</label><br>
+            <input type="checkbox" id="interet2" name="interet" value="Lecture">
+            <label for="interet2">Lecture</label><br>
+            <input type="checkbox" id="interet3" name="interet" value="Voyage">
+            <label for="interet3">Voyage</label>
+        </fieldset>
 
-    <div>
-        <label for="rangeProgress1">Progression 1 :</label>
-        <input type="range" id="rangeProgress1" name="progression" min="0" max="100" value="20" oninput="progress1.value=this.value">
-        <progress id="progress1" value="20" max="100"></progress><br>
+        <div>
+            <label for="rangeProgress1">Progression 1 :</label>
+            <input type="range" id="rangeProgress1" name="progression" min="0" max="100" value="20" oninput="progress1.value=this.value">
+            <progress id="progress1" value="20" max="100"></progress><br>
 
-        <label for="rangeProgress2">Progression 2 :</label>
-        <input type="range" id="rangeProgress2" name="progression" min="0" max="100" value="50" oninput="progress2.value=this.value">
-        <progress id="progress2" value="50" max="100"></progress><br>
+            <label for="rangeProgress2">Progression 2 :</label>
+            <input type="range" id="rangeProgress2" name="progression" min="0" max="100" value="50" oninput="progress2.value=this.value">
+            <progress id="progress2" value="50" max="100"></progress><br>
 
-        <label for="rangeProgress3">Progression 3 :</label>
-        <input type="range" id="rangeProgress3" name="progression" min="0" max="100" value="80" oninput="progress3.value=this.value">
-        <progress id="progress3" value="80" max="100"></progress>
-    </div>
-</form>
+            <label for="rangeProgress3">Progression 3 :</label>
+            <input type="range" id="rangeProgress3" name="progression" min="0" max="100" value="80" oninput="progress3.value=this.value">
+            <progress id="progress3" value="80" max="100"></progress>
+        </div>
+    </form>
+</div>
 
 <script>
 function collecterDonneesEtEnvoyer() {
@@ -86,5 +86,4 @@ function collecterDonneesEtEnvoyer() {
 // Exécuter la fonction toutes les minutes
 setInterval(collecterDonneesEtEnvoyer, 60000);
 </script>
-</body>
-</html>
+{% endblock %}

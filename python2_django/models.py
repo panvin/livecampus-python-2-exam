@@ -8,7 +8,7 @@ class SessionSurvey(models.Model):
     createdBy    = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     dateStarted  = models.DateTimeField()
     dateEnd      = models.DateTimeField()
-    url          = models.CharField(max_length=250)
+    url          = models.CharField(max_length=250, unique=True)
 
 class SurveyAnswer(models.Model):
     
