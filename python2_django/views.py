@@ -6,12 +6,26 @@ from .forms import SessionForm
 from .models import SessionSurvey
 from .models import SurveyAnswer
 
+# View pour la page d'acceuil du projet Django
+def home_display(request):  
+    context = {} 
+    if request.user.is_authenticated:
+        date = getFormattedDateForHomePage()
+        surveyCount = SessionSurvey.objects.filter(createdBy = request.user.id, status = True).count()
+        context = {
+           'date' : date,
+          'surveyCount' : str(surveyCount) 
+        }
+
+    return render(request, 'home.html', context)
+# View permettant d'afficher la liste des sesssions d'enquête existante pour l'utilisateur
 @login_required
 def session_list(request):
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
 
     return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
 
+# View de création de session d'enquête
 @login_required
 def session_create(request):
     
@@ -27,10 +41,7 @@ def session_create(request):
         "url" : urlInit, 
         "dateStarted": dateStartedInit, 
         "dateEnd": dateEndInit
-    }
-
-    print(initialValues) 
-    
+    }    
     if request.method == 'POST':
         form = SessionForm(request.POST)
         if form.is_valid() :
@@ -41,6 +52,7 @@ def session_create(request):
 
     return render(request, 'session/session_create.html', {'form' : form})
 
+# View pour lédition de session d'enquêtes
 @login_required
 def session_edit(request, id):
     sessionToEdit = get_object_or_404(SessionSurvey, id=id)
@@ -56,24 +68,17 @@ def session_edit(request, id):
 
     return render(request, 'session/session_edit.html', {'form' : form})
 
+# View utilisée pour changer l'état d'une session d'enquête
 @login_required
-def session_disable(request, id):
-    sessionToDisable = get_object_or_404(SessionSurvey, id=id)
-    if sessionToDisable:
-        sessionToDisable.status = False
-        sessionToDisable.save()
+def session_change_state(request, id):
+    sessionToModify = get_object_or_404(SessionSurvey, id=id)
+    if sessionToModify:
+        sessionToModify.status = not sessionToModify.status
+        sessionToModify.save()
 
     return redirect(session_list)
 
-@login_required
-def session_enable(request, id):
-    sessionToDisable = get_object_or_404(SessionSurvey, id=id)
-    if sessionToDisable:
-        sessionToDisable.status = True
-        sessionToDisable.save()
-
-    return redirect(session_list)
-
+# View utilisée pour supprimer une session d'enquête
 @login_required
 def session_delete(request, id):
     sessionToDelete = get_object_or_404(SessionSurvey, id=id)
@@ -82,6 +87,7 @@ def session_delete(request, id):
 
     return redirect(session_list)
 
+# View utilisée pour affichier les résultats de l'enquête
 @login_required
 def answer_summary(request, id):
     listAnswers = SurveyAnswer.objects.filter(session=id)
@@ -89,15 +95,3 @@ def answer_summary(request, id):
     nbrStudents = listAnswers.count()
 
     return render(request, 'answer/summary.html')
-
-def home_display(request):  
-    context = {} 
-    if request.user.is_authenticated:
-        date = getFormattedDateForHomePage()
-        surveyCount = SessionSurvey.objects.filter(createdBy = request.user.id, status = True).count()
-        context = {
-           'date' : date,
-          'surveyCount' : str(surveyCount) 
-        }
-
-    return render(request, 'home.html', context)

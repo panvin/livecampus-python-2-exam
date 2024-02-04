@@ -35,14 +35,14 @@
                 <td>http://monsupersite/{{ session.url }}</td>
                 {% if session.status %}
                 <td style="background-color:white; border: 1px solid white;">
-                    <form action="{% url 'session_disable' session.id %}" method="POST">
+                    <form action="{% url 'session_change_state' session.id %}" method="POST">
                         {% csrf_token %}
                         <button class="btn btn-success btn-sm" style="width:100%">Activé</button>
                     </form>
                 </td>
                 {% else %}
                 <td style="background-color:white; border: 1px solid white;">
-                    <form action="{% url 'session_enable' session.id %}" method="POST">
+                    <form action="{% url 'session_change_state' session.id %}" method="POST">
                         {% csrf_token %}
                         <button class="btn btn-outline-danger btn-sm" style="width:100%">Désactivé</button>
                     </form>
