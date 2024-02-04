@@ -30,8 +30,8 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ session.name }}</td>
                 <td>{{ session.createdBy }}</td>
-                <td>{{ session.dateStarted }}</td>
-                <td>{{ session.dateEnd }}</td>
+                <td>{{ session.dateStarted|date:"d / n / y - G:i" }}</td>
+                <td>{{ session.dateEnd|date:"d / n / y - G:i" }}</td>
                 <td>http://monsupersite/{{ session.url }}</td>
                 {% if session.status %}
                 <td style="background-color:white; border: 1px solid white;">
