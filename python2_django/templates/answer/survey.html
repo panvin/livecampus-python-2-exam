@@ -67,8 +67,9 @@ function collecterDonneesEtEnvoyer() {
         progressions: progressions
     };
 
-    fetch('URL_DE_VOTRE_API', {
+    fetch('http://127.0.0.1:5000/efddqsfqsdf', {
         method: 'POST',
+        credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
         },
