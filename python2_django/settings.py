@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv, find_dotenv
+import os
+
+# Chargement des secret présents dans le fichier .env
+load_dotenv(find_dotenv())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,11 +83,11 @@ WSGI_APPLICATION = 'python2_django.wsgi.application'
 DATABASES = {
     'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'PROJET',
-    'USER': 'userDB',
-    'PASSWORD': 'monPassword',
-    'HOST': '127.0.0.1',
-    'PORT': '3306',
+    'NAME': os.getenv('DB_DATABASE'),
+    'USER': os.getenv('DB_USER'),
+    'PASSWORD': os.getenv('DB_PASSWORD'),
+    'HOST': os.getenv('DB_HOST'),
+    'PORT': os.getenv('DB_PORT'),
     }
 }
 
@@ -134,3 +139,5 @@ LOGOUT_REDIRECT_URL = "home"
 
 # Ajout de la bibliothèque crispy pour améliorer le rendu des formulaire généré par Django
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')

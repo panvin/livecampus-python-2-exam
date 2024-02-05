@@ -83,8 +83,8 @@ function majValeurAvancement(currentValue) {
 function collecterDonneesEtEnvoyer() {
     const nom = document.getElementById('nom').value;
     const difficulteChoisie = document.querySelector('input[name="difficulty"]:checked')?.value;
-    const progressionChoisie = document.querySelector('input[name="difficulty"]:checked')?.value;
-    const pourcentageChoisi = document.getElementById('rangeProgress1').value;
+    const progressionChoisie = document.querySelector('input[name="progression"]:checked')?.value;
+    const pourcentageChoisi = document.getElementById('rangeProgress').value;
     const dateEnvoi = Date.now();
 
     const data = {

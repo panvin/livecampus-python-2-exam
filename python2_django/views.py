@@ -103,7 +103,7 @@ def answer_create_or_edit(request, urlPattern):
     currentSession = get_object_or_404(SessionSurvey, url=urlPattern)
     currentUser = request.user
     currentUserAnswers = SurveyAnswer.objects.filter(session=currentSession.id, student=currentUser.id)
-    token = generateJwt(currentUser.username,currentSession.id)
+    token = generateJwt(currentUser.id, currentUser.username,currentSession.id)
     
     #response = HttpResponse('for_api')
     #response.set_cookie('jwt', token)

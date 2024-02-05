@@ -1,4 +1,5 @@
 from datetime import datetime, timezone, timedelta
+from django.conf import settings
 import locale
 import random
 import string
@@ -24,10 +25,11 @@ def getPercentageAsStr(value, total):
   percentage = 100 * float(value)/float(total)
   return f"{percentage} %"
 
-def generateJwt(username, sessionId):
+def generateJwt(userId, username, sessionId):
     payload = {
+        'userId': userId,
         'username': username,
         'sessionId' : sessionId
     }
-    token = jwt.encode(payload, "test_12345", algorithm='HS256')
+    token = jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm='HS256')
     return token
