@@ -1,70 +1,98 @@
 {% extends "base.html" %}
 
-{% block title %}Création d'une nouvelle session{% endblock %}
+{% block title %}Réponses à l'enquête{% endblock %}
 
 {% block content %}
-<div class="p-2">
-    <h1>Formulaire avec envoi automatique et barres de progression ajustables</h2>
+<div class="p-2 m-2">
+    <h2>Enquête de positionnement à destination des étudiants</h2>
 </di>
-<div class="p-2">
+<div class="p-2 m-2">
     <form id="monFormulaire">
-        <div>
-            <label for="nom">Votre nom :</label>
-            <input type="text" id="nom" name="nom">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="nom">Votre nom :</label>
+            <div class="col-sm-10">
+                <input type="text" id="nom" name="nom">
+            </div>
         </div>
-
-        <fieldset>
-            <legend>Choix unique (Choix de couleur)</legend>
-            <input type="radio" id="couleur1" name="couleur" value="Rouge">
-            <label for="couleur1">Rouge</label><br>
-            <input type="radio" id="couleur2" name="couleur" value="Vert">
-            <label for="couleur2">Vert</label><br>
-            <input type="radio" id="couleur3" name="couleur" value="Bleu">
-            <label for="couleur3">Bleu</label>
+        <br>
+        <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-2 pt-0">Difficulté :</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="easy" name="difficulty" value="EA">
+                        <label class="form-check-label" for="easy">Facile</label><br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="normal" name="difficulty" value="NO">
+                        <label class="form-check-label" for="normal">OK</label><br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="hard" name="difficulty" value="HA">
+                        <label class="form-check-label" for="hard">Un peu compliqué</label><br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="veryHard" name="difficulty" value="VA">
+                        <label class="form-check-label" for="veryHard">Très compliqué</label><br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="extreme" name="difficulty" value="EX">
+                        <label class="form-check-label" for="easy">Au secours !!</label>
+                    </div>
+                </div>
+            </div>
         </fieldset>
-
-        <fieldset>
-            <legend>Choix multiple (Centres d'intérêt)</legend>
-            <input type="checkbox" id="interet1" name="interet" value="Sport">
-            <label for="interet1">Sport</label><br>
-            <input type="checkbox" id="interet2" name="interet" value="Lecture">
-            <label for="interet2">Lecture</label><br>
-            <input type="checkbox" id="interet3" name="interet" value="Voyage">
-            <label for="interet3">Voyage</label>
+        <br>
+        <fieldset class="form-group">
+            <div class="row">
+              <legend class="col-form-label col-sm-2 pt-0">Progression :</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="acquired" name="progression" value="AC">
+                        <label class="form-check-label" for="acquired">J'ai compris</label><br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="inProgress" name="progression" value="IP">
+                        <label class="form-check-label" for="inProgress">Je dois encore pratiquer</label><br>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="notYetAcquired" name="progression" value="NA">
+                        <label class="form-check-label" for="notYetAcquired">C'est flou</label>
+                    </div>
+                </div>
+            </div>
         </fieldset>
-
-        <div>
-            <label for="rangeProgress1">Progression 1 :</label>
-            <input type="range" id="rangeProgress1" name="progression" min="0" max="100" value="20" oninput="progress1.value=this.value">
-            <progress id="progress1" value="20" max="100"></progress><br>
-
-            <label for="rangeProgress2">Progression 2 :</label>
-            <input type="range" id="rangeProgress2" name="progression" min="0" max="100" value="50" oninput="progress2.value=this.value">
-            <progress id="progress2" value="50" max="100"></progress><br>
-
-            <label for="rangeProgress3">Progression 3 :</label>
-            <input type="range" id="rangeProgress3" name="progression" min="0" max="100" value="80" oninput="progress3.value=this.value">
-            <progress id="progress3" value="80" max="100"></progress>
+        <br>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="rangeProgress">Avancement :</label>
+            <div class="col-sm-10">
+                <input class="form-range" width="30%" type="range" id="rangeProgress" name="progression" min="0" max="100" step="10" value="0" oninput="majValeurAvancement(this.value);">
+                <div><output id="rangeProgressDisplay">0</output>%</div>
+                <br>
+            </div>
         </div>
     </form>
 </div>
 
 <script>
+function majValeurAvancement(currentValue) {
+    document.getElementById('rangeProgress').value = currentValue;
+    document.getElementById('rangeProgressDisplay').value = currentValue;
+}
+
 function collecterDonneesEtEnvoyer() {
     const nom = document.getElementById('nom').value;
-    const couleurChoisie = document.querySelector('input[name="couleur"]:checked')?.value;
-    const interetsChoisis = Array.from(document.querySelectorAll('input[name="interet"]:checked')).map(el => el.value);
-    const progressions = [
-        document.getElementById('rangeProgress1').value,
-        document.getElementById('rangeProgress2').value,
-        document.getElementById('rangeProgress3').value
-    ];
+    const difficulteChoisie = document.querySelector('input[name="difficulty"]:checked')?.value;
+    const progressionChoisie = document.querySelector('input[name="difficulty"]:checked')?.value;
+    const pourcentageChoisi = document.getElementById('rangeProgress1').value;
+    const dateEnvoi = Date.now();
 
     const data = {
-        nom: nom,
-        couleur: couleurChoisie,
-        interets: interetsChoisis,
-        progressions: progressions
+        student: nom,
+        difficulty: difficulteChoisie,
+        progression: progressionChoisie,
+        percentage: pourcentageChoisi,
+        dateSent: dateEnvoi
     };
 
     fetch('http://127.0.0.1:5000/efddqsfqsdf', {

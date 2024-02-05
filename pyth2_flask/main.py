@@ -1,6 +1,14 @@
 from flask import Flask, Response, request, jsonify
 from flask_cors import CORS, cross_origin
+import mysql.connector
 import jwt
+
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="userDB",
+    password=env.conf["dbPassword"],
+    database="PROJET"
+)
 
 #initialise mon app Flask
 app = Flask(__name__)
