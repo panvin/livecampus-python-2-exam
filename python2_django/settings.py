@@ -141,3 +141,6 @@ LOGOUT_REDIRECT_URL = "home"
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
+
+# URL de l'API flask, NE DOIT PAS contenir de slash à la fin 
+API_FLASK_URL = 'http://127.0.0.1:5000'

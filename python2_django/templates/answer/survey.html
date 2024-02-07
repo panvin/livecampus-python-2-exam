@@ -11,7 +11,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="nom">Votre nom :</label>
             <div class="col-sm-10">
-                <input type="text" id="nom" name="nom">
+                <div>{{ answer.fullname }}</div>
             </div>
         </div>
         <br>
@@ -20,23 +20,23 @@
               <legend class="col-form-label col-sm-2 pt-0">Difficulté :</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="easy" name="difficulty" value="EA">
+                        <input class="form-check-input" type="radio" id="easy" name="difficulty" value="EA" {% if 'EA' in answer.difficulty %}checked{% endif %}>
                         <label class="form-check-label" for="easy">Facile</label><br>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="normal" name="difficulty" value="NO">
+                        <input class="form-check-input" type="radio" id="normal" name="difficulty" value="NO" {% if 'NO' in answer.difficulty %}checked{% endif %}>
                         <label class="form-check-label" for="normal">OK</label><br>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="hard" name="difficulty" value="HA">
+                        <input class="form-check-input" type="radio" id="hard" name="difficulty" value="HA" {% if 'HA' in answer.difficulty %}checked{% endif %}>
                         <label class="form-check-label" for="hard">Un peu compliqué</label><br>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="veryHard" name="difficulty" value="VA">
+                        <input class="form-check-input" type="radio" id="veryHard" name="difficulty" value="VA" {% if 'VA' in answer.difficulty %}checked{% endif %}>
                         <label class="form-check-label" for="veryHard">Très compliqué</label><br>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="extreme" name="difficulty" value="EX">
+                        <input class="form-check-input" type="radio" id="extreme" name="difficulty" value="EX" {% if 'EX' in answer.difficulty %}checked{% endif %}>
                         <label class="form-check-label" for="easy">Au secours !!</label>
                     </div>
                 </div>
@@ -48,15 +48,15 @@
               <legend class="col-form-label col-sm-2 pt-0">Progression :</legend>
                 <div class="col-sm-10">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="acquired" name="progression" value="AC">
+                        <input class="form-check-input" type="radio" id="acquired" name="progression" value="AC" {% if 'AC' in answer.progression %}checked{% endif %}>
                         <label class="form-check-label" for="acquired">J'ai compris</label><br>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="inProgress" name="progression" value="IP">
+                        <input class="form-check-input" type="radio" id="inProgress" name="progression" value="IP" {% if 'IP' in answer.progression %}checked{% endif %}>
                         <label class="form-check-label" for="inProgress">Je dois encore pratiquer</label><br>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="notYetAcquired" name="progression" value="NA">
+                        <input class="form-check-input" type="radio" id="notYetAcquired" name="progression" value="NA" {% if 'NA' in answer.progression %}checked{% endif %}>
                         <label class="form-check-label" for="notYetAcquired">C'est flou</label>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="rangeProgress">Avancement :</label>
             <div class="col-sm-10">
-                <input class="form-range" width="30%" type="range" id="rangeProgress" name="progression" min="0" max="100" step="10" value="0" oninput="majValeurAvancement(this.value);">
-                <div><output id="rangeProgressDisplay">0</output>%</div>
+                <input class="form-range" width="30%" type="range" id="rangeProgress" name="progression" min="0" max="100" step="10" value="{{ answer.percentage }}" oninput="majValeurAvancement(this.value);">
+                <div><output id="rangeProgressDisplay">{{ answer.percentage }}</output>%</div>
                 <br>
             </div>
         </div>
@@ -81,13 +81,11 @@ function majValeurAvancement(currentValue) {
 }
 
 function collecterDonneesEtEnvoyer() {
-    const nom = document.getElementById('nom').value;
     const difficulteChoisie = document.querySelector('input[name="difficulty"]:checked')?.value;
     const progressionChoisie = document.querySelector('input[name="progression"]:checked')?.value;
     const pourcentageChoisi = document.getElementById('rangeProgress').value;
 
     const data = {
-        student: nom,
         difficulty: difficulteChoisie,
         progression: progressionChoisie,
         percentage: pourcentageChoisi

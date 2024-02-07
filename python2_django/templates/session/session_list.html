@@ -3,6 +3,22 @@
 {% block title %}Liste des sessions{% endblock %}
 
 {% block content %}
+<script>
+    function myFunction() {
+      // Get the text field
+      var copyText = document.getElementById("myURL");
+    
+      // Select the text field
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+    
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(copyText.value);
+      
+      // Alert the copied text
+      alert("Lien copié: " + copyText.value);
+    }
+</script>
 <div class="p-2">
     <h1> Liste des equêtes</h1>
 </div>
@@ -28,11 +44,11 @@
             {% for session in sessionsurvey %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ session.name }}</td>
-                <td>{{ session.createdBy }}</td>
+                <td><a href="{% url 'answer_summary' session.id %}" class="link-primary">{{ session.name }}</a></td>
+                <td>{{ session.createdBy.first_name }} {{ session.createdBy.last_name }}</td>
                 <td>{{ session.dateStarted|date:"d / n / y - G:i" }}</td>
                 <td>{{ session.dateEnd|date:"d / n / y - G:i" }}</td>
-                <td>http://monsupersite/{{ session.url }}</td>
+                <td><a href="{% url 'answer_create_or_edit' session.url %}" class="link-primary">http://{{ request.META.HTTP_HOST }}/{{ session.url }}</a></td>
                 {% if session.status %}
                 <td style="background-color:white; border: 1px solid white;">
                     <form action="{% url 'session_change_state' session.id %}" method="POST">

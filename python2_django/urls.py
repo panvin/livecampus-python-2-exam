@@ -29,7 +29,7 @@ urlpatterns = [
     path('sessions/edit/<int:id>/', views.session_edit, name="session_edit"),
     
     # Chemin vers les réponses à l'enquête
-    path('sessions/<int:id>/summary', views.answer_summary, name="answer_summary"),
+    path('sessions/<int:id>', views.answer_summary, name="answer_summary"),
     path('<str:urlPattern>/', views.answer_create_or_edit, name="answer_create_or_edit"),
     
     # Inclusion des pages d'authentification Django

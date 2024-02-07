@@ -5,7 +5,7 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="p-2 text-center">
-    <h1> Bonjour, {{ user.username }}! </h1>
+    <h1> Bonjour, {{ user.first_name }}! </h1>
 </div>
 <div class="p-2 text-center">
     <h2> Nous sommes {{ date }}, vous avez {{ surveyCount }} enquêtes en cours</h2>

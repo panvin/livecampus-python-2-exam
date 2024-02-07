@@ -26,7 +26,7 @@ class SurveyAnswer(models.Model):
     
     session         = models.ForeignKey(SessionSurvey, on_delete=models.CASCADE)
     student         = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    percentage      =  models.SmallIntegerField(default=0)
+    percentage      = models.SmallIntegerField(default=0)
     progression     = models.CharField( max_length=2, choices=ExerciceProgression.choices, default=ExerciceProgression.NOTYETACQUIRED)
     difficulty      = models.CharField( max_length=2, choices=ExerciceDifficulty, default=ExerciceDifficulty.EXTREME)
     dateSend        = models.DateTimeField()

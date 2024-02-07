@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext as _
 from .utils import isDateBeforeNow, isFirstDateOlderThanSecond
-from .models import SessionSurvey
+from .models import SessionSurvey, SurveyAnswer
 
 class SessionForm(forms.ModelForm):
     class Meta:
@@ -39,4 +39,3 @@ class SessionForm(forms.ModelForm):
  
         # return any errors if found
         return self.cleaned_data
-

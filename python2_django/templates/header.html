@@ -13,7 +13,7 @@
             <div class="d-flex align-items-center align-middle justify-content-end">
                 {% if user.is_authenticated %}
                 <!-- Avatar -->
-                <div class="p-2">Bonjour,  {{ user.username }}</div>
+                <div class="p-2">Bonjour,  {{ user.first_name }}</div>
                 <div>
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}

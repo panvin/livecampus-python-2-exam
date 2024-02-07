@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.conf import settings
 from datetime import datetime, timedelta
 from .utils import generateRandomString, getFormattedDateForHomePage, generateJwt, getPercentageAsStr
 from .forms import SessionForm
-from .models import SessionSurvey
-from .models import SurveyAnswer
+from .models import SessionSurvey, SurveyAnswer
 
 # View pour la page d'acceuil du projet Django
 def home_display(request):  
@@ -22,8 +22,9 @@ def home_display(request):
 @login_required
 def session_list(request):
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
+    baseUrl = request.build_absolute_uri()
 
-    return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey})
+    return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey, 'baseUrl' : baseUrl})
 
 # View de création de session d'enquête
 @login_required
@@ -94,23 +95,40 @@ def answer_summary(request, id):
     
     nbrStudents = listAnswers.count()
 
-    return render(request, 'answer/summary.html')
+    return render(request, 'answer/summary.html', {'answers' : listAnswers})
 
 # View utilisée pour afficher le formulaire de l'enquête
 @login_required
 def answer_create_or_edit(request, urlPattern):
     
-    currentSession = get_object_or_404(SessionSurvey, url=urlPattern)
     currentUser = request.user
+    currentSession = get_object_or_404(SessionSurvey, url=urlPattern)
     currentUserAnswers = SurveyAnswer.objects.filter(session=currentSession.id, student=currentUser.id)
-    token = generateJwt(currentUser.id, currentUser.username,currentSession.id)
     
-    #response = HttpResponse('for_api')
-    #response.set_cookie('jwt', token)
+    # Création du token JWTpour l'API Flask
+    token = generateJwt(currentUser.id, currentUser.username, currentSession.id)
     
+    # Initialisation des données du formulaire
     if not currentUserAnswers:
-        print("ok")
+        progression = SurveyAnswer.ExerciceProgression.NOTYETACQUIRED
+        difficulty  = SurveyAnswer.ExerciceDifficulty.NORMAL
+        percentage  = 0
         
-    response = render(request, 'answer/survey.html')
+    else:
+        progression = currentUserAnswers[0].progression
+        difficulty  = currentUserAnswers[0].difficulty
+        percentage  = currentUserAnswers[0].percentage
+        
+    data = {
+        'fullname'   : f"{currentUser.first_name} {currentUser.last_name}",
+        'progression': progression,
+        'percentage' : percentage,
+        'difficulty' : difficulty
+    }
+
+    # Récupération des l'URL de l'API dans les settings Django
+    urlApi = settings.API_FLASK_URL
+        
+    response = render(request, 'answer/survey.html', { 'answer' : data,  'urlApi': urlApi })
     response.set_cookie("jwt", token, httponly=True)
     return response
