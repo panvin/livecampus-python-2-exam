@@ -66,7 +66,7 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="rangeProgress">Avancement :</label>
             <div class="col-sm-10">
-                <input class="form-range" width="30%" type="range" id="rangeProgress" name="progression" min="0" max="100" step="10" value="{{ answer.percentage }}" oninput="majValeurAvancement(this.value);">
+                <input class="form-range" width="30%" type="range" id="rangeProgress" name="progression" min="0" max="100" step="10" value="{{ answer.percentage }}" oninput="rangeProgressDisplay.value =this.value;">
                 <div><output id="rangeProgressDisplay">{{ answer.percentage }}</output>%</div>
                 <br>
             </div>
@@ -75,11 +75,6 @@
 </div>
 
 <script>
-function majValeurAvancement(currentValue) {
-    document.getElementById('rangeProgress').value = currentValue;
-    document.getElementById('rangeProgressDisplay').value = currentValue;
-}
-
 function collecterDonneesEtEnvoyer() {
     const difficulteChoisie = document.querySelector('input[name="difficulty"]:checked')?.value;
     const progressionChoisie = document.querySelector('input[name="progression"]:checked')?.value;
