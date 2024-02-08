@@ -21,10 +21,6 @@ def getFormattedDateForHomePage():
     formattedDate = date.strftime('%A %d %B')
     return formattedDate
 
-def getPercentageAsStr(value, total):
-  percentage = 100 * float(value)/float(total)
-  return f"{percentage} %"
-
 def generateJwt(userId, username, sessionId):
     payload = {
         'userId': userId,

@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from datetime import datetime, timedelta
-from .utils import generateRandomString, getFormattedDateForHomePage, generateJwt, getPercentageAsStr
+from .utils import generateRandomString, getFormattedDateForHomePage, generateJwt
 from .forms import SessionForm
 from .models import SessionSurvey, SurveyAnswer
 
@@ -26,7 +26,12 @@ def session_list(request):
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
     baseUrl = request.build_absolute_uri()
 
-    return render(request, 'session/session_list.html', {'sessionsurvey' : sessionSurvey, 'baseUrl' : baseUrl})
+    context = {
+        'sessionsurvey' : sessionSurvey,
+        'baseUrl' : baseUrl
+    }
+
+    return render(request, 'session/session_list.html', context)
 
 # View de création de session d'enquête
 @login_required
@@ -37,7 +42,6 @@ def session_create(request):
     urlInit = generateRandomString(8)
     dateStartedInit = datetime.now()
     dateEndInit = datetime.now() + timedelta(hours=3)
-    context ={} 
   
     # Dictionnaire pour initialiser les données du formulaire 
     initialValues = { 
@@ -54,7 +58,11 @@ def session_create(request):
     else:
         form = SessionForm(initial = initialValues)
 
-    return render(request, 'session/session_create.html', {'form' : form})
+    context = {
+        'form' : form
+    }
+
+    return render(request, 'session/session_create.html', context)
 
 # View pour lédition de session d'enquêtes
 @login_required
@@ -71,7 +79,11 @@ def session_edit(request, id):
     else:  
         form = SessionForm(instance=sessionToEdit)
 
-    return render(request, 'session/session_edit.html', {'form' : form})
+    context = {
+        'form' : form
+    }
+
+    return render(request, 'session/session_edit.html', context)
 
 # View utilisée pour changer l'état d'une session d'enquête
 @login_required
@@ -109,9 +121,9 @@ def answer_summary(request, id):
         'EX': listAnswers.filter(difficulty=SurveyAnswer.ExerciceDifficulty.EXTREME).count()
     }
     countProgression ={
-        'AC': listAnswers.filter(difficulty=SurveyAnswer.ExerciceProgression.ACQUIRED).count(),
-        'IP': listAnswers.filter(difficulty=SurveyAnswer.ExerciceProgression.INPROGRESS).count(),
-        'NA': listAnswers.filter(difficulty=SurveyAnswer.ExerciceProgression.NOTYETACQUIRED).count()
+        'AC': listAnswers.filter(progression=SurveyAnswer.ExerciceProgression.ACQUIRED).count(),
+        'IP': listAnswers.filter(progression=SurveyAnswer.ExerciceProgression.INPROGRESS).count(),
+        'NA': listAnswers.filter(progression=SurveyAnswer.ExerciceProgression.NOTYETACQUIRED).count()
     }
     coutPercentage = {
         "BEGIN"    : listAnswers.filter(percentage__lte=33).count(),
@@ -121,15 +133,15 @@ def answer_summary(request, id):
 
     }
 
-    data = {
-        'countStudents'    : countStudents,
-        'countDifficulty'  : countDifficulty,
-        'countProgression' : countProgression,
-        'coutPercentage'   : coutPercentage,
+    context = {
+        'countstudents'    : countStudents,
+        'countdifficulty'  : countDifficulty,
+        'countprogression' : countProgression,
+        'countpercentage'  : coutPercentage,
         'answers'          : listAnswers
     }
 
-    return render(request, 'answer/summary.html', { 'data' : data })
+    return render(request, 'answer/summary.html', context)
 
 # View utilisée pour afficher le formulaire de l'enquête
 @login_required
@@ -163,7 +175,11 @@ def answer_create_or_edit(request, urlPattern):
 
     # Récupération des l'URL de l'API dans les settings Django
     urlApi = settings.API_FLASK_URL
+    context = {
+        'answer' : data, 
+        'urlApi': urlApi 
+    }
         
-    response = render(request, 'answer/survey.html', { 'answer' : data,  'urlApi': urlApi })
+    response = render(request, 'answer/survey.html', context)
     response.set_cookie("jwt", token, httponly=True)
     return response

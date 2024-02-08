@@ -12,10 +12,10 @@
 </div>
 <br>
 <div class="p-2">
-    <h3> Avancement sur le TP</h3>
+    <h3> Avancement sur le TP - Total de réponses: {{ countstudents }}</h3>
 </div>
 <div class="p-2">
-    <table class="table table-striped table-hover">
+    <table class="table table-secondary table-striped table-hover">
         <thead>
         <tr>
             <th scope="col">Inférieur à 33 %</th>
@@ -26,10 +26,10 @@
         </thead>
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ countpercentage.BEGIN }}</td>
+                <td>{{ countpercentage.MID }}</td>
+                <td>{{ countpercentage.NEAR }}</td>
+                <td>{{ countpercentage.FINISHED }}</td>
             </tr>
         </tbody>
     </table>
@@ -39,7 +39,7 @@
     <h3> Difficulté</h3>
 </div>
 <div class="p-2">
-    <table class="table table-striped table-hover">
+    <table class="table table-secondary table-striped table-hover">
         <thead>
         <tr>
             <th scope="col">Facile</th>
@@ -51,11 +51,11 @@
         </thead>
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ countdifficulty.EA }}</td>
+                <td>{{ countdifficulty.NO }}</td>
+                <td>{{ countdifficulty.HA }}</td>
+                <td>{{ countdifficulty.VA }}</td>
+                <td>{{ countdifficulty.EX }}</td>
             </tr>
         </tbody>
     </table>
@@ -65,7 +65,7 @@
     <h3>Progression des étudiants</h3>
 </div>
 <div class="p-2">
-    <table class="table table-striped table-hover">
+    <table class="table table-secondary table-striped table-hover">
         <thead>
         <tr>
             <th scope="col">J'ai compris</th>
@@ -75,9 +75,9 @@
         </thead>
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ countprogression.AC }}</td>
+                <td>{{ countprogression.IP }}</td>
+                <td>{{ countprogression.NA }}</td>
             </tr>
         </tbody>
     </table>
@@ -87,10 +87,10 @@
     <h3>Détail des participants</h3>
 </div>
 <div class="p-2">
-    <table class="table table-striped table-hover">
+    <table class="table table-warning table-striped table-hover">
         <thead>
         <tr>
-            <th scope="col">Prénom Nom</th>
+            <th scope="col">#</th>
             <th scope="col">Première mise à jour</th>
             <th scope="col">Dernière mise à jour</th>
         </tr>
