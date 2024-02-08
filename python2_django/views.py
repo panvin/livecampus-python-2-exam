@@ -48,7 +48,7 @@ def session_create(request):
   
     # Dictionnaire pour initialiser les données du formulaire 
     initialValues = { 
-        "createdBy" : currentUserInit.id, 
+        "createdBy" : currentUserInit, 
         "url" : urlInit, 
         "dateStarted": dateStartedInit, 
         "dateEnd": dateEndInit
@@ -56,7 +56,10 @@ def session_create(request):
     if request.method == 'POST':
         form = SessionForm(request.POST)
         if form.is_valid() :
-            form.save()
+            session = form.save(commit=False)
+            if session.createdBy_id is None:
+                session.createdBy_id = currentUserInit.id
+            session.save()
             return redirect('session_list')
     else:
         form = SessionForm(initial = initialValues)

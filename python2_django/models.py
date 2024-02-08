@@ -27,7 +27,7 @@ class SurveyAnswer(models.Model):
         NOTYETACQUIRED = 'NA', _('C\'est flou')
     
     session         = models.ForeignKey(SessionSurvey, on_delete=models.CASCADE)
-    student         = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    student         = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     percentage      = models.SmallIntegerField(default=0)
     progression     = models.CharField( max_length=2, choices=ExerciceProgression.choices, default=ExerciceProgression.NOTYETACQUIRED)
     difficulty      = models.CharField( max_length=2, choices=ExerciceDifficulty, default=ExerciceDifficulty.EXTREME)
