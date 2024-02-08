@@ -3,15 +3,15 @@
 
 ### Pré-requis:
 - Mariadb server
-- Python 3
+- Python 3  
 (Le développement a été réalisés sou machine Linux, via Visual Studio Code)
 
 ### Mise en route du projet:
 
-Les secret sont à mettre dans un fichier .env à la racine du projet (les valeurs sont à adapter). 
-Un fichier .env.default est présent dans le projet pour donner la structure des données
+Les secret sont à mettre dans un fichier .env à la racine du projet (les valeurs sont à adapter).  
+Un fichier .env.default est présent dans le projet pour donner la structure des données.  
 
-1. Créer une base de donnée "PROJET" :
+1. Créer une base de donnée 'maDatabaseProjet' :
 ```sql
 CREATE DATABASE 'maDatabaseProjet'; 
 ```
@@ -30,18 +30,18 @@ pip -r requirements.txt
 ```
 python manage.py runserver
 ```
-è. Ouvrir un second terminal (avec venv) et lancer l'appli Flask:
+7. Ouvrir un second terminal (avec venv) et lancer l'appli Flask:
 ```
 python python2_flask/main.py
 ```
 
 ### Accéder à l'application:
-L'application est disponible à l'adresse: http://127.0.0.1:8000/
-L'url de l'API Flask est: http://127.à.à.1:5000
+L'application est disponible à l'adresse: http://127.0.0.1:8000/  
+L'url de l'API Flask est: http://127.0.0.1:5000  
 
-Les permissions des pages ont été définies via les groupes Django.
-Les étudiants peuvent visualiser la page d'acceuil et le formulaire d'enquête
-Les enseignants peuvent tout voir mais ils ne sont pas pris en compte par l'API Flask s'ils se connectent à une enquête
+Les permissions des pages ont été définies via les groupes Django.  
+Les étudiants peuvent visualiser la page d'acceuil et le formulaire d'enquête.  
+Les enseignants peuvent tout voir mais ils ne sont pas pris en compte par l'API Flask s'ils se connectent à une enquête  
 
 | login   |  password  | groupe  | admin | 
 |---------|------------|---------|-------|
@@ -53,10 +53,10 @@ Les enseignants peuvent tout voir mais ils ne sont pas pris en compte par l'API 
 
 ### Sources:
 
-Voici les liens vers les différentes ressources utilisées pour mener à bien le projet:
+Voici les liens vers les différentes ressources utilisées pour mener à bien le projet:  
 
-<https://www.w3schools.com/>
-<https://docs.djangoproject.com/en/5.0/>
-<https://stackoverflow.com/>
+<https://www.w3schools.com/>  
+<https://docs.djangoproject.com/en/5.0/>  
+<https://stackoverflow.com/>  
 <https://getbootstrap.com/docs/5.0/getting-started/introduction/>
 
