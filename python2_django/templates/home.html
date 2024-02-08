@@ -8,17 +8,31 @@
     <h1> Bonjour, {{ user.first_name }}! </h1>
 </div>
 <div class="p-2 text-center">
-    <h2> Nous sommes {{ date }}, vous avez {{ surveyCount }} enquêtes en cours</h2>
+    <h2> Nous sommes le {{ date }}.</h2>
+</div>
+{% if perms.python2_django.view_SessionSurvey %}
+<div class="p-2 text-center"> 
+    <h3> Vous avez {{ surveyCount }} enquêtes en cours.</h3>
 </div>
 <div class="p-2 text-center"> 
     <a class="btn btn-secondary"  href="{% url 'session_list' %}"  role="button">Accéder à la liste d'enquêtes</a>
 </div>
+<br>
+{% else %}
+<div class="p-2 text-center"> 
+    <h3>Merci de vous être connecté.</h3>
+    <br>
+    <h3>Veuillez attendre que votre enseignant(e) vous fournisse un lien d'enquête.</h3>
+</div>
+{% endif %}
 {% else %}
 <div class="p-2 text-center">
     <h1> Bonjour !!!! </h1>
 </div>
 <div class="p-2 text-center">
-    <h2> Bienvenue sur notre super site d'enquête.<br>Veuillez vous authentifier pour continuer</h2>
+    <h2> Bienvenue sur notre super site d'enquête.</h2>
+    <br> 
+    <h3>Veuillez vous authentifier pour continuer</h3>
 </div>
 {% endif %}
 {% endblock %}

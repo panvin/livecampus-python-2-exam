@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from datetime import datetime, timedelta
@@ -18,8 +18,10 @@ def home_display(request):
         }
 
     return render(request, 'home.html', context)
+
 # View permettant d'afficher la liste des sesssions d'enquête existante pour l'utilisateur
 @login_required
+@permission_required('python2_django.view_sessionsurvey', raise_exception=True)
 def session_list(request):
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
     baseUrl = request.build_absolute_uri()
@@ -28,6 +30,7 @@ def session_list(request):
 
 # View de création de session d'enquête
 @login_required
+@permission_required('python2_django.add_sessionsurvey', raise_exception=True)
 def session_create(request):
     
     currentUserInit = request.user
@@ -55,6 +58,7 @@ def session_create(request):
 
 # View pour lédition de session d'enquêtes
 @login_required
+@permission_required('python2_django.change_sessionsurvey', raise_exception=True)
 def session_edit(request, id):
     sessionToEdit = get_object_or_404(SessionSurvey, id=id)
 
@@ -71,6 +75,7 @@ def session_edit(request, id):
 
 # View utilisée pour changer l'état d'une session d'enquête
 @login_required
+@permission_required('python2_django.change_sessionsurvey', raise_exception=True)
 def session_change_state(request, id):
     sessionToModify = get_object_or_404(SessionSurvey, id=id)
     if sessionToModify:
@@ -81,6 +86,7 @@ def session_change_state(request, id):
 
 # View utilisée pour supprimer une session d'enquête
 @login_required
+@permission_required('python2_django.delete_sessionsurvey', raise_exception=True)
 def session_delete(request, id):
     sessionToDelete = get_object_or_404(SessionSurvey, id=id)
     if sessionToDelete:
@@ -90,15 +96,44 @@ def session_delete(request, id):
 
 # View utilisée pour afficher les résultats de l'enquête
 @login_required
+@permission_required('python2_django.view_surveyanswer', raise_exception=True)
 def answer_summary(request, id):
     listAnswers = SurveyAnswer.objects.filter(session=id)
     
-    nbrStudents = listAnswers.count()
+    countStudents = listAnswers.count()
+    countDifficulty = {
+        'EA': listAnswers.filter(difficulty=SurveyAnswer.ExerciceDifficulty.EASY).count(),
+        'NO': listAnswers.filter(difficulty=SurveyAnswer.ExerciceDifficulty.NORMAL).count(),
+        'HA': listAnswers.filter(difficulty=SurveyAnswer.ExerciceDifficulty.HARD).count(),
+        'VA': listAnswers.filter(difficulty=SurveyAnswer.ExerciceDifficulty.VERYHARD).count(),
+        'EX': listAnswers.filter(difficulty=SurveyAnswer.ExerciceDifficulty.EXTREME).count()
+    }
+    countProgression ={
+        'AC': listAnswers.filter(difficulty=SurveyAnswer.ExerciceProgression.ACQUIRED).count(),
+        'IP': listAnswers.filter(difficulty=SurveyAnswer.ExerciceProgression.INPROGRESS).count(),
+        'NA': listAnswers.filter(difficulty=SurveyAnswer.ExerciceProgression.NOTYETACQUIRED).count()
+    }
+    coutPercentage = {
+        "BEGIN"    : listAnswers.filter(percentage__lte=33).count(),
+        "MID"      : listAnswers.filter(percentage__gt=33, percentage__lte=66).count(),
+        "NEAR"     : listAnswers.filter(percentage__gt=66, percentage__lt=100).count(),
+        "FINISHED" : listAnswers.filter(percentage=100).count()
 
-    return render(request, 'answer/summary.html', {'answers' : listAnswers})
+    }
+
+    data = {
+        'countStudents'    : countStudents,
+        'countDifficulty'  : countDifficulty,
+        'countProgression' : countProgression,
+        'coutPercentage'   : coutPercentage,
+        'answers'          : listAnswers
+    }
+
+    return render(request, 'answer/summary.html', { 'data' : data })
 
 # View utilisée pour afficher le formulaire de l'enquête
 @login_required
+@permission_required(['python2_django.add_surveyanswer', 'python2_django.change_surveyanswer'], raise_exception=True)
 def answer_create_or_edit(request, urlPattern):
     
     currentUser = request.user

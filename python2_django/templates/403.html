@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Page introuvable{% endblock %}
+
+{% block content %}
+<div class="p-2 text-center">
+    <h1>Hey!!!!!</h1>
+</div>
+<div class="p-2 text-center">
+    <h2>Vous nes eriez pas en train de fureter là où vous n'avez pas le droit d'aller n'est-ce pas?</h2>
+</div>
+<div class="p-2 text-center">
+    <a class="btn btn-danger" href="{% url 'home' %}" role="button">Acceuil</a>
+</div>
+{% endblock %}

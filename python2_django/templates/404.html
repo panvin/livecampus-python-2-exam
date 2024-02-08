@@ -1,9 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}Page introuvavle{% endblock %}
+{% block title %}Page introuvable{% endblock %}
 
 {% block content %}
-<h1>Oupssss!!!</h1>
-<h2>La page que vous cherchez n'existe pas, désolé</h2>
-<a class="btn btn-danger" href="{% url 'home' %}" role="button">Retourner à l'acceuil</a>
+<div class="p-2 text-center">
+    <h1>Oupssss!!!</h1>
+</div>
+<div class="p-2 text-center">
+    <h2>La page que vous cherchez n'existe pas, désolé</h2>
+</div>
+<div class="p-2 text-center">>
+    <a class="btn btn-danger" href="{% url 'home' %}" role="button">Retourner à l'acceuil</a>
+</div
 {% endblock %}
