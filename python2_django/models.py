@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext as _
 
+# Modèle d'enquête
 class SessionSurvey(models.Model):
     name         = models.CharField(max_length=50)
     status       = models.BooleanField(default=False)
@@ -10,6 +11,7 @@ class SessionSurvey(models.Model):
     dateEnd      = models.DateTimeField()
     url          = models.CharField(max_length=250, unique=True)
 
+# Modèle de réponse d'enquête
 class SurveyAnswer(models.Model):
     
     class ExerciceDifficulty(models.TextChoices):

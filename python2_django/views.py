@@ -2,16 +2,18 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from datetime import datetime, timedelta
-from .utils import generateRandomString, getFormattedDateForHomePage, generateJwt
+from .utils import generateRandomString, getFormattedDateForHomePage, generateJwt, isDateBeforeNow, isDateAfterNow
 from .forms import SessionForm
 from .models import SessionSurvey, SurveyAnswer
 
 # View pour la page d'acceuil du projet Django
 def home_display(request):  
+    
     context = {} 
     if request.user.is_authenticated:
         date = getFormattedDateForHomePage()
         surveyCount = SessionSurvey.objects.filter(createdBy = request.user.id, status = True).count()
+        
         context = {
            'date' : date,
           'surveyCount' : str(surveyCount) 
@@ -23,6 +25,7 @@ def home_display(request):
 @login_required
 @permission_required('python2_django.view_sessionsurvey', raise_exception=True)
 def session_list(request):
+    
     sessionSurvey = SessionSurvey.objects.filter(createdBy = request.user.id)
     baseUrl = request.build_absolute_uri()
 
@@ -68,6 +71,7 @@ def session_create(request):
 @login_required
 @permission_required('python2_django.change_sessionsurvey', raise_exception=True)
 def session_edit(request, id):
+    
     sessionToEdit = get_object_or_404(SessionSurvey, id=id)
 
     if request.method == 'POST':
@@ -89,6 +93,7 @@ def session_edit(request, id):
 @login_required
 @permission_required('python2_django.change_sessionsurvey', raise_exception=True)
 def session_change_state(request, id):
+    
     sessionToModify = get_object_or_404(SessionSurvey, id=id)
     if sessionToModify:
         sessionToModify.status = not sessionToModify.status
@@ -100,6 +105,7 @@ def session_change_state(request, id):
 @login_required
 @permission_required('python2_django.delete_sessionsurvey', raise_exception=True)
 def session_delete(request, id):
+    
     sessionToDelete = get_object_or_404(SessionSurvey, id=id)
     if sessionToDelete:
         sessionToDelete.delete()
@@ -110,6 +116,8 @@ def session_delete(request, id):
 @login_required
 @permission_required('python2_django.view_surveyanswer', raise_exception=True)
 def answer_summary(request, id):
+    
+    # Construction des données de résultat à afficher
     listAnswers = SurveyAnswer.objects.filter(session=id)
     
     countStudents = listAnswers.count()
@@ -151,8 +159,12 @@ def answer_create_or_edit(request, urlPattern):
     currentUser = request.user
     currentSession = get_object_or_404(SessionSurvey, url=urlPattern)
     currentUserAnswers = SurveyAnswer.objects.filter(session=currentSession.id, student=currentUser.id)
-    
-    # Création du token JWTpour l'API Flask
+
+    # Vérification de la validité de la session
+    if not currentSession.status or isDateBeforeNow(currentSession.dateEnd) or isDateAfterNow(currentSession.dateStarted) :
+        return render(request, 'over.html')
+                          
+    # Création du token JWT pour l'API Flask
     token = generateJwt(currentUser.id, currentUser.username, currentSession.id)
     
     # Initialisation des données du formulaire
@@ -175,6 +187,7 @@ def answer_create_or_edit(request, urlPattern):
 
     # Récupération des l'URL de l'API dans les settings Django
     urlApi = settings.API_FLASK_URL
+    
     context = {
         'answer' : data, 
         'urlApi': urlApi 

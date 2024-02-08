@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Session indisponible{% endblock %}
+
+{% block content %}
+<div class="p-2 text-center">
+    <h1>Oulalalala</h1>
+</div>
+<div class="p-2 text-center">
+    <h2>La session demandée ne semble pas être disponible</h2>
+</div>
+<div class="p-2 text-center">
+    <a class="btn btn-danger" href="{% url 'home' %}" role="button">Acceuil</a>
+</div>
+{% endblock %}

@@ -21,6 +21,7 @@ from . import views
 urlpatterns = [
     #Chemin vers la page d'administration
     path("admin/", admin.site.urls),
+    
     # Chemin pour les sessions d'enquêtes
     path('sessions/', views.session_list, name='session_list' ),
     path('sessions/create', views.session_create, name='session_create' ),
@@ -28,7 +29,7 @@ urlpatterns = [
     path('sessions/changestatus/<int:id>/', views.session_change_state, name="session_change_state"),
     path('sessions/edit/<int:id>/', views.session_edit, name="session_edit"),
     
-    # Chemin vers les réponses à l'enquête
+    # Chemin vers les réponses à l'enquête et les enquêtes
     path('sessions/<int:id>', views.answer_summary, name="answer_summary"),
     path('<str:urlPattern>/', views.answer_create_or_edit, name="answer_create_or_edit"),
     

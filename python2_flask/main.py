@@ -12,6 +12,7 @@ load_dotenv(find_dotenv())
 # Initialisation de mon app Flask
 app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY')
+
 # paramétrage CORS pour autoriser les requêtes venant de l'appli Dkango
 CORS_HEADERS = 'Content-Type, Authorization, Origin, x-csrf-token, Access-Control-Allow-Credentials' 
 CORS_METHODS = 'POST, OPTIONS' 

@@ -20,7 +20,7 @@ class SessionForm(forms.ModelForm):
 
     def clean(self):
  
-        # On ajoute des éléments de validation à notre formulaire
+        # Ajout d'éléments de validation au formulaire
         super(SessionForm, self).clean()
          
         dateEnd = self.cleaned_data.get('dateEnd')
@@ -37,5 +37,4 @@ class SessionForm(forms.ModelForm):
             self._errors['dateEnd'] = self.error_class([
                 'La date de fin de l\'enquête ne peux pas être dans le passé'])
  
-        # return any errors if found
         return self.cleaned_data
