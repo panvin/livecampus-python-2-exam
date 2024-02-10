@@ -193,7 +193,7 @@ def answer_create_or_edit(request, urlPattern):
     
     context = {
         'answer' : data, 
-        'urlApi': urlApi 
+        'urlApi': f"{urlApi}/{urlPattern}" 
     }
         
     response = render(request, 'answer/survey.html', context)

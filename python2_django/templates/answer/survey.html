@@ -86,7 +86,7 @@ function collecterDonneesEtEnvoyer() {
         percentage: pourcentageChoisi
     };
 
-    fetch('http://127.0.0.1:5000/efddqsfqsdf', {
+    fetch('{{ urlApi }}', {
         method: 'POST',
         credentials: 'include',
         headers: {
